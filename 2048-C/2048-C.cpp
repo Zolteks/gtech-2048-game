@@ -60,9 +60,24 @@ public:
     void moveBlocks(char blocks)
     {
         char keyInput;
-        int i = 0;
         //cin.get(keyInput);
         //cout << "Touche appuyer : " << keyInput << endl;
+        
+    }
+};
+
+class User
+{
+public:
+    char player;
+    User(char user)
+    {
+        cout << "A toi de jouer !" << endl;
+        this->player = user;
+    }
+
+    void moveInput() {
+        int i = 0;
         while (i == 0)
         {
             if ((GetAsyncKeyState(VK_UP) & 0x8000) != 0)
@@ -96,7 +111,8 @@ int main()
     grid.init();
     grid.spawnBlock();
     grid.draw();
-    grid.moveBlocks(NULL);
+    User user();
+    user.moveInput();
     printf("end of Main\n\n");
     exit(0);
 }

@@ -5,14 +5,32 @@
 class Grid
 {
 public:
-    Grid()
+    std::vector<std::vector<int>> grid;
+    int gridSize;
+    Grid( int size )
     {
         printf("constucted\n");
-        std::vector<std::vector<int>> array;
-        printf("[][][][]\n");
-        printf("[][][][]\n");
-        printf("[][][][]\n");
-        printf("[][][][]\n");
+        this->gridSize = size;
+        this->grid.resize(size);
+        for (int i = 0; i < size; i++)
+        {
+            this->grid[i].resize(size);
+        }
+    }
+
+    void draw()
+    {
+        printf("passage inside draw\n");
+        for (int i = 0; i < this->gridSize; i++)
+        {
+            for (int j = 0; j < this->gridSize; j++)
+            {
+                //printf("before this.grid: i=%d, j=%d\n", i, j);
+                this->grid[i][j] = 0;
+                printf("%d ", this->grid[i][j]);
+            }
+            printf("\n");
+        }
     }
 
     void spawnBlock()
@@ -28,12 +46,8 @@ public:
 
 int main()
 {
-    Grid grid;
-    while (true)
-    {
-        //char response;
-        //grid.moveBlocks(response);
-        //grid.spawnBlock();
-    }
-
+    printf("start of Main\n");
+    Grid grid(4);
+    grid.draw();
+    printf("end of Main\n");
 }

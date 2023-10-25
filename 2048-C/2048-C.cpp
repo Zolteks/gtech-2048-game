@@ -5,6 +5,7 @@
 #include <vector>
 
 using namespace std;
+//setfill() permet de remplir des cases vides
 
 class Grid
 {
@@ -13,7 +14,6 @@ public:
     int gridSize;
     Grid(int size)
     {
-        cout << "constucted" << endl;
         this->gridSize = size;
         this->grid.resize(size);
         for (int i = 0; i < size; i++)
@@ -46,28 +46,59 @@ public:
 
     void spawnBlock()
     {
-        this->grid[1][1] = 1;
+        this->grid[1][3] = 1;
     }
 
-    //setfill() permet de remplir des cases vides
-
-    void moveBlocks(char keyInput)
+    void checkGrid(int yMove, int xMove)
     {
-        cout << "Mouvement " << keyInput << endl;
+        
+    }
+
+    void moveBlocks(int direction)
+    {
+        int xMove = 0;
+        int yMove = 0;
+
+        switch (direction)
+        {
+        case 0:
+            yMove = -1;
+        case 1:
+            yMove = 1;
+        case 2:
+            for (int ligne = 0; ligne < this->gridSize; ligne++)
+            {
+                for (int colonne = 0; colonne < this->gridSize; colonne++)
+                {
+                    if (this->grid[ligne][colonne] != 0)
+                        continue;
+
+                    for (int fullCell = colonne + 1; fullCell < this->gridSize; fullCell++)
+                    {
+                        if (this->grid[ligne][fullCell] == 0)
+                            continue;
+                        this->grid[ligne][colonne] = this->grid[ligne][fullCell];
+                        this->grid[ligne][fullCell] = 0;
+                    }
+                }
+            }
+        case 3:
+            xMove = 1;
+        }
+
+        
     }
 };
 
-class User
+class Game
 {
 public:
-    char player;
-    User(char user)
+    Game()
     {
         cout << "A toi de jouer !" << endl;
-        this->player = user;
     }
 
-    void moveInput() {
+    int moveInput() {
         bool playing = true;
         while (playing)
         {
@@ -79,16 +110,15 @@ public:
             }
             if ((GetAsyncKeyState(VK_UP) & 0x8000) != 0)
             {
-                cout << "HAUT" << endl;
+                return 0;
                 while ((GetAsyncKeyState(VK_UP) & 0x8000) != 0)
                 {
                     Sleep(1);
                 }
-                //grid.moveBlocks('HAUT');
             }
             if ((GetAsyncKeyState(VK_DOWN) & 0x8000) != 0)
             {
-                cout << "BAS" << endl;
+                return 1;
                 while ((GetAsyncKeyState(VK_DOWN) & 0x8000) != 0)
                 {
                     Sleep(1);
@@ -96,7 +126,7 @@ public:
             }
             if ((GetAsyncKeyState(VK_LEFT) & 0x8000) != 0)
             {
-                cout << "GAUCHE" << endl;
+                return 2;
                 while ((GetAsyncKeyState(VK_LEFT) & 0x8000) != 0)
                 {
                     Sleep(1);
@@ -104,7 +134,7 @@ public:
             }
             if ((GetAsyncKeyState(VK_RIGHT) & 0x8000) != 0)
             {
-                cout << "DROITE" << endl;
+                return 3;
                 while ((GetAsyncKeyState(VK_RIGHT) & 0x8000) != 0)
                 {
                     Sleep(1);
@@ -116,20 +146,21 @@ public:
 
 int main()
 {
-    cout << "start of Main" << endl << endl;
+    cout << "Start of main" << endl << endl;
     bool loop = true;
     Grid grid(4);
     grid.spawnBlock();
     grid.draw();
+    Game game;
     while (loop)
     {
-        User user('p');
-        user.moveInput();
+        grid.moveBlocks(game.moveInput());
+        grid.draw();
         if ((GetAsyncKeyState(VK_ESCAPE) & 0x8000) != 0)
         {
             loop = false;
         }
     }
-    cout << endl << "end of Main" << endl;
+    cout << endl << "End of main" << endl;
     exit(0);
 }

@@ -32,7 +32,7 @@ public:
 
     void draw()
     {
-        cout << "passage inside draw" << endl << endl;
+        //system("cls");
         for (int i = 0; i < this->gridSize; i++)
         {
             for (int j = 0; j < this->gridSize; j++)
@@ -47,6 +47,7 @@ public:
     void spawnBlock()
     {
         this->grid[1][3] = 1;
+        this->grid[3][3] = 1;
     }
 
     void checkGrid(int yMove, int xMove)
@@ -76,6 +77,8 @@ public:
                             continue;
                         this->grid[ligne][colonne] = this->grid[fullCell][colonne];
                         this->grid[fullCell][colonne] = 0;
+                        break;
+                        //this->draw();
                     }
                 }
             }
@@ -136,8 +139,6 @@ public:
             }
             break;
         }
-
-
     }
 };
 

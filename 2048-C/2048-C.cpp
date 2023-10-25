@@ -37,10 +37,9 @@ public:
         {
             for (int j = 0; j < this->gridSize; j++)
             {
-                //printf("before this.grid: i=%d, j=%d\n", i, j);
-                cout << this->grid[i][j];
+                cout << "|" << this->grid[i][j];
             }
-            cout << endl;
+            cout << "|" << endl;
         }
         cout << endl;
     }
@@ -118,11 +117,19 @@ public:
 int main()
 {
     cout << "start of Main" << endl << endl;
+    bool loop = true;
     Grid grid(4);
     grid.spawnBlock();
     grid.draw();
-    User user('p');
-    user.moveInput();
+    while (loop)
+    {
+        User user('p');
+        user.moveInput();
+        if ((GetAsyncKeyState(VK_ESCAPE) & 0x8000) != 0)
+        {
+            loop = false;
+        }
+    }
     cout << endl << "end of Main" << endl;
     exit(0);
 }

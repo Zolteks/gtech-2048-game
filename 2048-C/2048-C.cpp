@@ -69,14 +69,14 @@ public:
     }
 
     void moveInput() {
-        int i = 0;
-        while (i == 0)
+        bool playing = true;
+        while (playing)
         {
 
             if ((GetAsyncKeyState(VK_ESCAPE) & 0x8000) != 0)
             {
                 cout << endl << "QUIT" << endl;
-                i++;
+                playing = false;
             }
             if ((GetAsyncKeyState(VK_UP) & 0x8000) != 0)
             {

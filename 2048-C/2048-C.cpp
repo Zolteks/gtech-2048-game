@@ -3,8 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
-#include <conio.h>
-#include <shellapi.h>
 
 using namespace std;
 
@@ -15,17 +13,14 @@ public:
     int gridSize;
     Grid(int size)
     {
-        printf("constucted\n");
+        cout << "constucted" << endl;
         this->gridSize = size;
         this->grid.resize(size);
         for (int i = 0; i < size; i++)
         {
             this->grid[i].resize(size);
         }
-    }
-
-    void init()
-    {
+        //initialisation de la grille
         for (int i = 0; i < this->gridSize; i++)
         {
             for (int j = 0; j < this->gridSize; j++)
@@ -37,17 +32,17 @@ public:
 
     void draw()
     {
-        printf("passage inside draw\n\n");
+        cout << "passage inside draw" << endl << endl;
         for (int i = 0; i < this->gridSize; i++)
         {
             for (int j = 0; j < this->gridSize; j++)
             {
                 //printf("before this.grid: i=%d, j=%d\n", i, j);
-                printf("%d ", this->grid[i][j]);
+                cout << this->grid[i][j];
             }
-            printf("\n");
+            cout << endl;
         }
-        printf("\n");
+        cout << endl;
     }
 
     void spawnBlock()
@@ -57,12 +52,9 @@ public:
 
     //setfill() permet de remplir des cases vides
 
-    void moveBlocks(char blocks)
+    void moveBlocks(char keyInput)
     {
-        char keyInput;
-        //cin.get(keyInput);
-        //cout << "Touche appuyer : " << keyInput << endl;
-        
+        cout << "Mouvement " << keyInput << endl;
     }
 };
 
@@ -80,25 +72,44 @@ public:
         int i = 0;
         while (i == 0)
         {
+
+            if ((GetAsyncKeyState(VK_ESCAPE) & 0x8000) != 0)
+            {
+                cout << endl << "QUIT" << endl;
+                i++;
+            }
             if ((GetAsyncKeyState(VK_UP) & 0x8000) != 0)
             {
                 cout << "HAUT" << endl;
-                i++;
+                while ((GetAsyncKeyState(VK_UP) & 0x8000) != 0)
+                {
+                    Sleep(1);
+                }
+                //grid.moveBlocks('HAUT');
             }
             if ((GetAsyncKeyState(VK_DOWN) & 0x8000) != 0)
             {
                 cout << "BAS" << endl;
-                i++;
+                while ((GetAsyncKeyState(VK_DOWN) & 0x8000) != 0)
+                {
+                    Sleep(1);
+                }
             }
             if ((GetAsyncKeyState(VK_LEFT) & 0x8000) != 0)
             {
                 cout << "GAUCHE" << endl;
-                i++;
+                while ((GetAsyncKeyState(VK_LEFT) & 0x8000) != 0)
+                {
+                    Sleep(1);
+                }
             }
             if ((GetAsyncKeyState(VK_RIGHT) & 0x8000) != 0)
             {
                 cout << "DROITE" << endl;
-                i++;
+                while ((GetAsyncKeyState(VK_RIGHT) & 0x8000) != 0)
+                {
+                    Sleep(1);
+                }
             }
         }
     }
@@ -106,13 +117,12 @@ public:
 
 int main()
 {
-    printf("start of Main\n\n");
+    cout << "start of Main" << endl << endl;
     Grid grid(4);
-    grid.init();
     grid.spawnBlock();
     grid.draw();
-    User user();
+    User user('p');
     user.moveInput();
-    printf("end of Main\n\n");
+    cout << endl << "end of Main" << endl;
     exit(0);
 }

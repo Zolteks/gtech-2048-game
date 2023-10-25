@@ -62,17 +62,51 @@ public:
         switch (direction)
         {
         case 0:
+            // up
             yMove = -1;
-        case 1:
-            yMove = 1;
-        case 2:
             for (int ligne = 0; ligne < this->gridSize; ligne++)
             {
                 for (int colonne = 0; colonne < this->gridSize; colonne++)
                 {
                     if (this->grid[ligne][colonne] != 0)
                         continue;
+                    for (int fullCell = ligne + 1; fullCell < this->gridSize; fullCell++)
+                    {
+                        if (this->grid[fullCell][colonne] == 0)
+                            continue;
+                        this->grid[ligne][colonne] = this->grid[fullCell][colonne];
+                        this->grid[fullCell][colonne] = 0;
+                    }
+                }
+            }
+            break;
+        case 1:
+            // down
+            for (int ligne = this->gridSize - 1; ligne > 0; ligne--)
+            {
+                for (int colonne = 0; colonne < this->gridSize; colonne++)
+                {
+                    if (this->grid[ligne][colonne] != 0)
+                        continue;
 
+                    for (int fullCell = ligne - 1; fullCell > -1; fullCell--)
+                    {
+                        if (this->grid[fullCell][colonne] == 0)
+                            continue;
+                        this->grid[ligne][colonne] = this->grid[fullCell][colonne];
+                        this->grid[fullCell][colonne] = 0;
+                    }
+                }
+            }
+            break;
+        case 2:
+            // left
+            for (int ligne = 0; ligne < this->gridSize; ligne++)
+            {
+                for (int colonne = 0; colonne < this->gridSize; colonne++)
+                {
+                    if (this->grid[ligne][colonne] != 0)
+                        continue;
                     for (int fullCell = colonne + 1; fullCell < this->gridSize; fullCell++)
                     {
                         if (this->grid[ligne][fullCell] == 0)
@@ -82,8 +116,25 @@ public:
                     }
                 }
             }
+            break;
         case 3:
-            xMove = 1;
+            // right
+            for (int ligne = 0; ligne < this->gridSize; ligne++)
+            {
+                for (int colonne = this->gridSize-1; colonne > 0; colonne--)
+                {
+                    if (this->grid[ligne][colonne] != 0)
+                        continue;
+                    for (int fullCell = colonne - 1; fullCell > -1; fullCell--)
+                    {
+                        if (this->grid[ligne][fullCell] == 0)
+                            continue;
+                        this->grid[ligne][colonne] = this->grid[ligne][fullCell];
+                        this->grid[ligne][fullCell] = 0;
+                    }
+                }
+            }
+            break;
         }
 
 
@@ -110,35 +161,35 @@ public:
             }
             if ((GetAsyncKeyState(VK_UP) & 0x8000) != 0)
             {
-                return 0;
                 while ((GetAsyncKeyState(VK_UP) & 0x8000) != 0)
                 {
                     Sleep(1);
                 }
+                return 0;
             }
             if ((GetAsyncKeyState(VK_DOWN) & 0x8000) != 0)
             {
-                return 1;
                 while ((GetAsyncKeyState(VK_DOWN) & 0x8000) != 0)
                 {
                     Sleep(1);
                 }
+                return 1;
             }
             if ((GetAsyncKeyState(VK_LEFT) & 0x8000) != 0)
             {
-                return 2;
                 while ((GetAsyncKeyState(VK_LEFT) & 0x8000) != 0)
                 {
                     Sleep(1);
                 }
+                return 2;
             }
             if ((GetAsyncKeyState(VK_RIGHT) & 0x8000) != 0)
             {
-                return 3;
                 while ((GetAsyncKeyState(VK_RIGHT) & 0x8000) != 0)
                 {
                     Sleep(1);
                 }
+                return 3;
             }
         }
     }

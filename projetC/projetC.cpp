@@ -7,10 +7,39 @@
 using namespace std;
 //setfill() permet de remplir des cases vides
 
+class Tile
+{
+public:
+    int x, y, val;
+
+    Tile(int x, int y, int val=2)
+    {
+        this->x = x;
+        this->y = y;
+        this->val = val;
+    }
+
+    int getVal()
+    {
+        return this->val;
+    }
+
+    int getX()
+    {
+        return this->x;
+    }
+
+    int getY()
+    {
+        return this->y;
+    }
+};
+
 class Grid
 {
 public:
     vector<vector<int>> grid;
+    vector<Tile> freeSpaces;
     int gridSize;
     Grid(int size)
     {
@@ -26,6 +55,8 @@ public:
             for (int j = 0; j < this->gridSize; j++)
             {
                 this->grid[i][j] = 0;
+                Tile tile(i, j, 2);
+                this->freeSpaces.push_back(tile);
             }
         }
     }
@@ -46,8 +77,11 @@ public:
 
     void spawnBlock()
     {
-        this->grid[1][3] = 1;
-        this->grid[3][3] = 1;
+        int range = this->gridSize * this->gridSize;
+        int index = rand() % range;
+        Tile tileToAdd = this->freeSpaces[index];
+        this->freeSpaces.erase(this->freeSpaces.begin()+index);
+        this->grid[tileToAdd.getX()][tileToAdd.getY()] = tileToAdd.getVal();
     }
 
     void checkGrid(int yMove, int xMove)
@@ -98,6 +132,7 @@ public:
                             continue;
                         this->grid[ligne][colonne] = this->grid[fullCell][colonne];
                         this->grid[fullCell][colonne] = 0;
+                        break;
                     }
                 }
             }
@@ -116,6 +151,7 @@ public:
                             continue;
                         this->grid[ligne][colonne] = this->grid[ligne][fullCell];
                         this->grid[ligne][fullCell] = 0;
+                        break;
                     }
                 }
             }
@@ -134,6 +170,7 @@ public:
                             continue;
                         this->grid[ligne][colonne] = this->grid[ligne][fullCell];
                         this->grid[ligne][fullCell] = 0;
+                        break;
                     }
                 }
             }
@@ -198,6 +235,7 @@ public:
 
 int main()
 {
+    srand(time(0));
     cout << "Start of main" << endl << endl;
     bool loop = true;
     Grid grid(4);

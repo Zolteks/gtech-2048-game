@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="projetC.cpp">
+    <ClCompile Include="2048-C.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>

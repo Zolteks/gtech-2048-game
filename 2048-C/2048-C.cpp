@@ -7,10 +7,39 @@
 using namespace std;
 //setfill() permet de remplir des cases vides
 
+class Tile
+{
+public:
+    int x, y, val;
+
+    Tile(int x, int y, int val = 2)
+    {
+        this->x = x;
+        this->y = y;
+        this->val = val;
+    }
+
+    int getVal()
+    {
+        return this->val;
+    }
+
+    int getX()
+    {
+        return this->x;
+    }
+
+    int getY()
+    {
+        return this->y;
+    }
+};
+
 class Grid
 {
 public:
     vector<vector<int>> grid;
+    vector<Tile> freeSpaces;
     int gridSize;
     Grid(int size)
     {
@@ -26,6 +55,8 @@ public:
             for (int j = 0; j < this->gridSize; j++)
             {
                 this->grid[i][j] = 0;
+                Tile tile(i, j, 2);
+                this->freeSpaces.push_back(tile);
             }
         }
     }
@@ -44,12 +75,17 @@ public:
         cout << endl;
     }
 
-    void spawnBlock()
+    int spawnBlock()
     {
-        this->grid[1][1] = 1;
-        this->grid[2][1] = 1;
-        this->grid[2][3] = 1;
-        this->grid[3][3] = 1;
+        int range = this->freeSpaces.size();
+        if (range == 0)
+        {
+            return 0;
+        }
+        int index = rand() % range;
+        Tile tileToAdd = this->freeSpaces[index];
+        this->freeSpaces.erase(this->freeSpaces.begin() + index);
+        this->grid[tileToAdd.getX()][tileToAdd.getY()] = tileToAdd.getVal();
     }
 
     void merge(int direction)
@@ -251,11 +287,6 @@ public:
         bool playing = true;
         while (playing)
         {
-            if ((GetAsyncKeyState(VK_ESCAPE) & 0x8000) != 0)
-            {
-                cout << endl << "QUIT" << endl;
-                playing = false;
-            }
             if ((GetAsyncKeyState(VK_UP) & 0x8000) != 0)
             {
                 while ((GetAsyncKeyState(VK_UP) & 0x8000) != 0)
@@ -289,6 +320,11 @@ public:
                 }
                 return 3;
             }
+            if ((GetAsyncKeyState(VK_ESCAPE) & 0x8000) != 0)
+            {
+                cout << endl << "QUIT" << endl;
+                return 4;
+            }
         }
         return 4;
     }
@@ -296,7 +332,6 @@ public:
 
 int main()
 {
-    cout << "Start of main" << endl << endl;
     int direction;
     bool loop = true;
     Grid grid(4);
@@ -308,8 +343,9 @@ int main()
         direction = game.moveInput();
         grid.merge(direction);
         grid.moveBlocks(direction);
+        grid.spawnBlock();
         grid.draw();
-        if ((GetAsyncKeyState(VK_ESCAPE) & 0x8000) != 0)
+        if (direction == 4)
         {
             loop = false;
         }

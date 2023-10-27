@@ -36,115 +36,13 @@ public:
     }
 };
 
-class Check
-{
-public:
-    tuple<bool, int, int, int> chekMerge(vector<vector<int>> grid, int gridSize, int direction)
-    {
-
-        switch (direction)
-        {
-        case 0:
-            // up
-            for (int ligne = 0; ligne < gridSize; ligne++)
-            {
-                for (int colonne = 0; colonne < gridSize; colonne++)
-                {
-                    if (grid[ligne][colonne] == 0)
-                        continue;
-
-                    for (int sameCell = ligne + 1; sameCell < gridSize; sameCell++)
-                    {
-                        if (grid[sameCell][colonne] == 0)
-                            continue;
-                        if (grid[ligne][colonne] != grid[sameCell][colonne])
-                            return { false, ligne, colonne, sameCell };
-
-                        return { true, ligne, colonne, sameCell };
-                    }
-                }
-            }
-            return { false, 0, 0, 0 };
-        case 1:
-            // down
-            for (int ligne = gridSize - 1; ligne > 0; ligne--)
-            {
-                for (int colonne = 0; colonne < gridSize; colonne++)
-                {
-                    if (grid[ligne][colonne] == 0)
-                        continue;
-
-                    for (int sameCell = ligne - 1; sameCell > -1; sameCell--)
-                    {
-                        if (grid[sameCell][colonne] == 0)
-                            continue;
-                        if (grid[ligne][colonne] != grid[sameCell][colonne])
-                            return { false, ligne, colonne, sameCell };
-
-                        return { true, ligne, colonne, sameCell };
-                    }
-                }
-            }
-            return { false, 0, 0, 0 };
-        case 2:
-            // left
-            for (int ligne = 0; ligne < gridSize; ligne++)
-            {
-                for (int colonne = 0; colonne < gridSize; colonne++)
-                {
-                    if (grid[ligne][colonne] == 0)
-                        continue;
-
-                    for (int sameCell = colonne + 1; sameCell < gridSize; sameCell++)
-                    {
-                        if (grid[ligne][sameCell] == 0)
-                            continue;
-                        if (grid[ligne][colonne] != grid[ligne][sameCell])
-                            return { false, ligne, colonne, sameCell };
-
-                        return { true, ligne, colonne, sameCell };
-                    }
-                }
-            }
-            return { false, 0, 0, 0 };
-        case 3:
-            // right
-            for (int ligne = 0; ligne < gridSize; ligne++)
-            {
-                for (int colonne = gridSize - 1; colonne > 0; colonne--)
-                {
-                    if (grid[ligne][colonne] == 0)
-                        continue;
-
-                    for (int sameCell = colonne - 1; sameCell > -1; sameCell--)
-                    {
-                        if (grid[ligne][sameCell] == 0)
-                            continue;
-                        if (grid[ligne][colonne] != grid[ligne][sameCell])
-                            return { false, ligne, colonne, sameCell };
-
-                        return { true, ligne, colonne, sameCell };
-                    }
-                }
-            }
-            return { false, 0, 0, 0 };
-        }
-    }
-
-    void checkMove()
-    {
-
-    }
-};
-
 class Grid
 {
 public:
     vector<vector<int>> grid;
     vector<Tile> freeSpaces;
     int gridSize;
-    Check chekMerge();
-    Grid(int size)
+    Grid(int size = 4)
     {
         this->gridSize = size;
         this->grid.resize(size);
@@ -189,17 +87,32 @@ public:
         this->grid[tileToAdd.getX()][tileToAdd.getY()] = tileToAdd.getVal();
     }
 
-    void merge(int direction, auto [okCheck, ligne, colonne, sameCell] = chekMerge())
+    void merge(int direction)
     {
         switch (direction)
         {
         case 0:
             // up
-            if (okCheck == false)
-                break;
+            for (int ligne = 0; ligne < gridSize; ligne++)
+            {
+                for (int colonne = 0; colonne < gridSize; colonne++)
+                {
+                    if (grid[ligne][colonne] == 0)
+                        continue;
 
-            this->grid[ligne][colonne] = this->grid[ligne][colonne] * 2;
-            this->grid[sameCell][colonne] = 0;
+                    for (int sameCell = ligne + 1; sameCell < gridSize; sameCell++)
+                    {
+                        if (grid[sameCell][colonne] == 0)
+                            continue;
+                        if (grid[ligne][colonne] != grid[sameCell][colonne])
+                            break;
+
+                        this->grid[ligne][colonne] = this->grid[ligne][colonne] * 2;
+                        this->grid[sameCell][colonne] = 0;
+                        break;
+                    }
+                }
+            }
             break;
         case 1:
             // down
@@ -363,20 +276,54 @@ public:
         }
     }
 
-    int checkGrid()
+    /*bool gridIsFull()
     {
-        if (spawnBlock() != 0)
-            return 0;
+        if (this->getFreeTile().x == -1)
+            return false;
 
-        for (int i = 0; i < this->gridSize; i++)
+        return true;
+    }*/
+};
+
+class Check : Grid
+{
+public:
+
+    bool checkVictory()
+    {
+        for (int ligne = 0; ligne < gridSize; ligne++)
         {
-            for (int j = 0; j < this->gridSize; j++)
+            for (int colonne = 0; colonne < gridSize; colonne++)
             {
-                
+                if (this->grid[ligne][colonne] == 2048)
+                    return true;
             }
         }
+
+        return false;
+    }
+
+    int checkMerge()
+    {
+        int count = 0;
+        for (int ligne = 0; ligne < gridSize; ligne++)
+        {
+            for (int colonne = 0; colonne < gridSize; colonne++)
+            {
+                if (colonne + 1 < gridSize && grid[ligne][colonne] == grid[ligne][colonne + 1])
+                    count++;
+                if (colonne - 1 > -1 && grid[ligne][colonne] == grid[ligne][colonne - 1])
+                    count++;
+                if (ligne + 1 < gridSize && grid[ligne][colonne] == grid[ligne + 1][colonne])
+                    count++;
+                if (ligne - 1 > -1 && grid[ligne][colonne] == grid[ligne - 1][colonne])
+                    count++;
+            }
+        }
+        return count;
     }
 };
+
 
 class Game
 {
@@ -432,25 +379,43 @@ public:
 
 int main()
 {
+    srand(time(0));
+    //Définition des composants
     int size = 4;
     int direction;
     bool loop = true;
+
+    //Début du jeu
     Grid grid(size);
     grid.spawnBlock();
     grid.draw();
-    Game game;
     Check check;
+    Game game;
+
+    //Boucle de jeu
     while (loop)
     {
         direction = game.moveInput();
         if (direction == 4)
             loop = false;
-        check.chekMerge(grid, size, direction);
         grid.merge(direction);
         grid.moveBlocks(direction);
         grid.spawnBlock();
         grid.draw();
+        if (check.checkVictory() == true)
+        {
+            cout << "Victoire" << endl << endl;
+            loop = false;
+        }
+        cout << "Possibilité de merge : " << check.checkMerge() << endl;
+        if (check.checkMerge() == 0)
+        {
+            cout << "Perdu" << endl << endl;
+            loop = false;
+        }
     }
-    cout << endl << "End of main" << endl;
+
+    //Fin
+    cout << endl << "Game Over" << endl;
     exit(0);
 }

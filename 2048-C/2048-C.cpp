@@ -13,7 +13,7 @@ class Tile
 public:
     int x, y, val;
 
-    Tile(int x, int y, int val = 2)
+    Tile(int x = 0, int y = 0, int val = 2)
     {
         this->x = x;
         this->y = y;
@@ -39,8 +39,8 @@ public:
 class Grid
 {
 public:
-    vector<vector<int>> grid;
-    vector<Tile> freeSpaces;
+    vector<vector<Tile>> grid;
+    vector<Tile> freeTiles;
     int gridSize;
     Grid(int size = 4)
     {
@@ -55,9 +55,8 @@ public:
         {
             for (int j = 0; j < this->gridSize; j++)
             {
-                this->grid[i][j] = 0;
-                Tile tile(i, j, 2);
-                this->freeSpaces.push_back(tile);
+                this->grid[i][j].val = 0;
+                this->newFreeTile(i, j);
             }
         }
     }
@@ -69,22 +68,48 @@ public:
         {
             for (int j = 0; j < this->gridSize; j++)
             {
-                cout << "|" << this->grid[i][j];
+                cout << "|" << this->grid[i][j].val;
             }
             cout << "|" << endl;
         }
         cout << endl;
     }
 
-    int spawnBlock()
+    void swapTiles(Tile tile1, Tile tile2)
     {
-        int range = this->freeSpaces.size();
+        tile1.x, tile2.x = tile2.x, tile1.x;
+        tile1.y, tile2.y = tile2.y, tile1.y;
+    }
+
+    void newFreeTile(int x, int y)
+    {
+        Tile newFreeTile(x, y, 0);
+        this->freeTiles.push_back(newFreeTile);
+    }
+
+    Tile getFreeTile()
+    {
+        size_t range = this->freeTiles.size();
         if (range == 0)
-            return 0;
+        {
+            Tile tile(-1, -1, -1);
+            return tile;
+        }
         int index = rand() % range;
-        Tile tileToAdd = this->freeSpaces[index];
-        this->freeSpaces.erase(this->freeSpaces.begin() + index);
-        this->grid[tileToAdd.getX()][tileToAdd.getY()] = tileToAdd.getVal();
+        Tile newTile = this->freeTiles[index];
+        this->freeTiles.erase(this->freeTiles.begin() + index);
+        return newTile;
+    }
+
+    void spawnBlock()
+    {
+        Tile tileToAdd = getFreeTile();
+        int tileValue;
+        if (rand() % 10 == 0)
+            tileValue = 4;
+        else
+            tileValue = 2;
+        grid[tileToAdd.getX()][tileToAdd.getY()].val = tileValue;
     }
 
     void merge(int direction)
@@ -97,18 +122,18 @@ public:
             {
                 for (int colonne = 0; colonne < gridSize; colonne++)
                 {
-                    if (grid[ligne][colonne] == 0)
+                    if (grid[ligne][colonne].val == 0)
                         continue;
 
                     for (int sameCell = ligne + 1; sameCell < gridSize; sameCell++)
                     {
-                        if (grid[sameCell][colonne] == 0)
+                        if (grid[sameCell][colonne].val == 0)
                             continue;
-                        if (grid[ligne][colonne] != grid[sameCell][colonne])
+                        if (grid[ligne][colonne].val != grid[sameCell][colonne].val)
                             break;
 
-                        this->grid[ligne][colonne] = this->grid[ligne][colonne] * 2;
-                        this->grid[sameCell][colonne] = 0;
+                        this->grid[ligne][colonne].val = this->grid[ligne][colonne].val * 2;
+                        this->grid[sameCell][colonne].val = 0;
                         break;
                     }
                 }
@@ -120,18 +145,18 @@ public:
             {
                 for (int colonne = 0; colonne < this->gridSize; colonne++)
                 {
-                    if (this->grid[ligne][colonne] == 0)
+                    if (this->grid[ligne][colonne].val == 0)
                         continue;
 
                     for (int sameCell = ligne - 1; sameCell > -1; sameCell--)
                     {
-                        if (this->grid[sameCell][colonne] == 0)
+                        if (this->grid[sameCell][colonne].val == 0)
                             continue;
-                        if (this->grid[ligne][colonne] != this->grid[sameCell][colonne])
+                        if (this->grid[ligne][colonne].val != this->grid[sameCell][colonne].val)
                             break;
 
-                        this->grid[ligne][colonne] = this->grid[ligne][colonne] * 2;
-                        this->grid[sameCell][colonne] = 0;
+                        this->grid[ligne][colonne].val = this->grid[ligne][colonne].val * 2;
+                        this->grid[sameCell][colonne].val = 0;
                         break;
                     }
                 }
@@ -143,18 +168,18 @@ public:
             {
                 for (int colonne = 0; colonne < this->gridSize; colonne++)
                 {
-                    if (this->grid[ligne][colonne] == 0)
+                    if (this->grid[ligne][colonne].val == 0)
                         continue;
 
                     for (int sameCell = colonne + 1; sameCell < this->gridSize; sameCell++)
                     {
-                        if (this->grid[ligne][sameCell] == 0)
+                        if (this->grid[ligne][sameCell].val == 0)
                             continue;
-                        if (this->grid[ligne][colonne] != this->grid[ligne][sameCell])
+                        if (this->grid[ligne][colonne].val != this->grid[ligne][sameCell].val)
                             break;
 
-                        this->grid[ligne][colonne] = this->grid[ligne][colonne] * 2;
-                        this->grid[ligne][sameCell] = 0;
+                        this->grid[ligne][colonne].val = this->grid[ligne][colonne].val * 2;
+                        this->grid[ligne][sameCell].val = 0;
                         break;
                     }
                 }
@@ -166,18 +191,18 @@ public:
             {
                 for (int colonne = this->gridSize - 1; colonne > 0; colonne--)
                 {
-                    if (this->grid[ligne][colonne] == 0)
+                    if (this->grid[ligne][colonne].val == 0)
                         continue;
 
                     for (int sameCell = colonne - 1; sameCell > -1; sameCell--)
                     {
-                        if (this->grid[ligne][sameCell] == 0)
+                        if (this->grid[ligne][sameCell].val == 0)
                             continue;
-                        if (this->grid[ligne][colonne] != this->grid[ligne][sameCell])
+                        if (this->grid[ligne][colonne].val != this->grid[ligne][sameCell].val)
                             break;
 
-                        this->grid[ligne][colonne] = this->grid[ligne][colonne] * 2;
-                        this->grid[ligne][sameCell] = 0;
+                        this->grid[ligne][colonne].val = this->grid[ligne][colonne].val * 2;
+                        this->grid[ligne][sameCell].val = 0;
                         break;
                     }
                 }
@@ -188,9 +213,6 @@ public:
 
     void moveBlocks(int direction)
     {
-        int xMove = 0;
-        int yMove = 0;
-
         switch (direction)
         {
         case 0:
@@ -199,15 +221,15 @@ public:
             {
                 for (int colonne = 0; colonne < this->gridSize; colonne++)
                 {
-                    if (this->grid[ligne][colonne] != 0)
+                    if (this->grid[ligne][colonne].val != 0)
                         continue;
 
                     for (int fullCell = ligne + 1; fullCell < this->gridSize; fullCell++)
                     {
-                        if (this->grid[fullCell][colonne] == 0)
+                        if (this->grid[fullCell][colonne].val == 0)
                             continue;
-                        this->grid[ligne][colonne] = this->grid[fullCell][colonne];
-                        this->grid[fullCell][colonne] = 0;
+                        this->grid[ligne][colonne].val = this->grid[fullCell][colonne].val;
+                        this->grid[fullCell][colonne].val = 0;
                         break;
                     }
                 }
@@ -219,15 +241,15 @@ public:
             {
                 for (int colonne = 0; colonne < this->gridSize; colonne++)
                 {
-                    if (this->grid[ligne][colonne] != 0)
+                    if (this->grid[ligne][colonne].val != 0)
                         continue;
 
                     for (int fullCell = ligne - 1; fullCell > -1; fullCell--)
                     {
-                        if (this->grid[fullCell][colonne] == 0)
+                        if (this->grid[fullCell][colonne].val == 0)
                             continue;
-                        this->grid[ligne][colonne] = this->grid[fullCell][colonne];
-                        this->grid[fullCell][colonne] = 0;
+                        this->grid[ligne][colonne].val = this->grid[fullCell][colonne].val;
+                        this->grid[fullCell][colonne].val = 0;
                         break;
                     }
                 }
@@ -239,15 +261,15 @@ public:
             {
                 for (int colonne = 0; colonne < this->gridSize; colonne++)
                 {
-                    if (this->grid[ligne][colonne] != 0)
+                    if (this->grid[ligne][colonne].val != 0)
                         continue;
 
                     for (int fullCell = colonne + 1; fullCell < this->gridSize; fullCell++)
                     {
-                        if (this->grid[ligne][fullCell] == 0)
+                        if (this->grid[ligne][fullCell].val == 0)
                             continue;
-                        this->grid[ligne][colonne] = this->grid[ligne][fullCell];
-                        this->grid[ligne][fullCell] = 0;
+                        this->grid[ligne][colonne].val = this->grid[ligne][fullCell].val;
+                        this->grid[ligne][fullCell].val = 0;
                         break;
                     }
                 }
@@ -259,15 +281,15 @@ public:
             {
                 for (int colonne = this->gridSize - 1; colonne > 0; colonne--)
                 {
-                    if (this->grid[ligne][colonne] != 0)
+                    if (this->grid[ligne][colonne].val != 0)
                         continue;
 
                     for (int fullCell = colonne - 1; fullCell > -1; fullCell--)
                     {
-                        if (this->grid[ligne][fullCell] == 0)
+                        if (this->grid[ligne][fullCell].val == 0)
                             continue;
-                        this->grid[ligne][colonne] = this->grid[ligne][fullCell];
-                        this->grid[ligne][fullCell] = 0;
+                        this->grid[ligne][colonne].val = this->grid[ligne][fullCell].val;
+                        this->grid[ligne][fullCell].val = 0;
                         break;
                     }
                 }
@@ -276,18 +298,22 @@ public:
         }
     }
 
-    /*bool gridIsFull()
+    bool gridIsFull()
     {
         if (this->getFreeTile().x == -1)
             return false;
 
         return true;
-    }*/
+    }
 };
 
 class Check : Grid
 {
 public:
+    Check()
+    {
+        this->grid = grid;
+    }
 
     bool checkVictory()
     {
@@ -295,7 +321,7 @@ public:
         {
             for (int colonne = 0; colonne < gridSize; colonne++)
             {
-                if (this->grid[ligne][colonne] == 2048)
+                if (this->grid[ligne][colonne].val == 2048)
                     return true;
             }
         }
@@ -310,13 +336,13 @@ public:
         {
             for (int colonne = 0; colonne < gridSize; colonne++)
             {
-                if (colonne + 1 < gridSize && grid[ligne][colonne] == grid[ligne][colonne + 1])
+                if (colonne + 1 < gridSize && grid[ligne][colonne].val == grid[ligne][colonne + 1].val)
                     count++;
-                if (colonne - 1 > -1 && grid[ligne][colonne] == grid[ligne][colonne - 1])
+                if (colonne - 1 > -1 && grid[ligne][colonne].val == grid[ligne][colonne - 1].val)
                     count++;
-                if (ligne + 1 < gridSize && grid[ligne][colonne] == grid[ligne + 1][colonne])
+                if (ligne + 1 < gridSize && grid[ligne][colonne].val == grid[ligne + 1][colonne].val)
                     count++;
-                if (ligne - 1 > -1 && grid[ligne][colonne] == grid[ligne - 1][colonne])
+                if (ligne - 1 > -1 && grid[ligne][colonne].val == grid[ligne - 1][colonne].val)
                     count++;
             }
         }
@@ -407,11 +433,14 @@ int main()
             cout << "Victoire" << endl << endl;
             loop = false;
         }
-        cout << "Possibilité de merge : " << check.checkMerge() << endl;
-        if (check.checkMerge() == 0)
+        if (grid.gridIsFull() == true)
         {
-            cout << "Perdu" << endl << endl;
-            loop = false;
+            cout << "Possibilite de merge : " << check.checkMerge() << endl;
+            if (check.checkMerge() == 0)
+            {
+                cout << "Perdu" << endl << endl;
+                loop = false;
+            }
         }
     }
 

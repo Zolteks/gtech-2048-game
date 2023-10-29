@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
-#include <tuple>
 
 using namespace std;
 //setfill() permet de remplir des cases vides
@@ -56,7 +55,6 @@ public:
             for (int j = 0; j < this->gridSize; j++)
             {
                 this->grid[i][j].val = 0;
-                this->newFreeTile(i, j);
             }
         }
     }
@@ -75,10 +73,30 @@ public:
         cout << endl;
     }
 
-    void swapTiles(Tile tile1, Tile tile2)
+    bool checkFreeTiles()
     {
-        tile1.x, tile2.x = tile2.x, tile1.x;
-        tile1.y, tile2.y = tile2.y, tile1.y;
+        freeTiles.clear();
+        int counter = 0;
+        for (int i = 0; i < this->gridSize; i++)
+        {
+            for (int j = 0; j < this->gridSize; j++)
+            {
+                if (grid[i][j].getVal() == 0)
+                {
+                    newFreeTile(i, j);
+                    counter++;
+                }
+            }
+        }
+        if (counter == 0)
+        {
+            // returns true if the grid is full
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     void newFreeTile(int x, int y)
@@ -92,7 +110,7 @@ public:
         size_t range = this->freeTiles.size();
         if (range == 0)
         {
-            Tile tile(-1, -1, -1);
+            Tile tile(-1, -1);
             return tile;
         }
         int index = rand() % range;
@@ -103,6 +121,7 @@ public:
 
     void spawnBlock()
     {
+        checkFreeTiles();
         Tile tileToAdd = getFreeTile();
         int tileValue;
         if (rand() % 10 == 0)
@@ -118,18 +137,18 @@ public:
         {
         case 0:
             // up
-            for (int ligne = 0; ligne < gridSize; ligne++)
+            for (int ligne = 0; ligne < this->gridSize; ligne++)
             {
-                for (int colonne = 0; colonne < gridSize; colonne++)
+                for (int colonne = 0; colonne < this->gridSize; colonne++)
                 {
-                    if (grid[ligne][colonne].val == 0)
+                    if (this->grid[ligne][colonne].val == 0)
                         continue;
 
-                    for (int sameCell = ligne + 1; sameCell < gridSize; sameCell++)
+                    for (int sameCell = ligne + 1; sameCell < this->gridSize; sameCell++)
                     {
-                        if (grid[sameCell][colonne].val == 0)
+                        if (this->grid[sameCell][colonne].val == 0)
                             continue;
-                        if (grid[ligne][colonne].val != grid[sameCell][colonne].val)
+                        if (this->grid[ligne][colonne].val != this->grid[sameCell][colonne].val)
                             break;
 
                         this->grid[ligne][colonne].val = this->grid[ligne][colonne].val * 2;
@@ -213,6 +232,9 @@ public:
 
     void moveBlocks(int direction)
     {
+        int xMove = 0;
+        int yMove = 0;
+
         switch (direction)
         {
         case 0:
@@ -297,14 +319,6 @@ public:
             break;
         }
     }
-
-    bool gridIsFull()
-    {
-        if (this->getFreeTile().x == -1)
-            return false;
-
-        return true;
-    }
 };
 
 class Check : Grid
@@ -349,7 +363,6 @@ public:
         return count;
     }
 };
-
 
 class Game
 {
@@ -396,7 +409,7 @@ public:
             if ((GetAsyncKeyState(VK_ESCAPE) & 0x8000) != 0)
             {
                 cout << endl << "QUIT" << endl;
-                playing = false;
+                return 4;
             }
         }
         return 4;
@@ -433,7 +446,7 @@ int main()
             cout << "Victoire" << endl << endl;
             loop = false;
         }
-        if (grid.gridIsFull() == true)
+        if (grid.checkFreeTiles())
         {
             cout << "Possibilite de merge : " << check.checkMerge() << endl;
             if (check.checkMerge() == 0)

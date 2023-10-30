@@ -1,7 +1,7 @@
 #include <windows.h>
 #include <iostream>
 
-#include "Game.h"
+#include "class/Game.h"
 
 using namespace std;
 

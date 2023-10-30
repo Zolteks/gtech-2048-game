@@ -137,7 +137,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="2048-SDL2.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Window.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="Grid.cpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="class\GameObject.h" />
     <ClInclude Include="class\Grid.h" />
     <ClInclude Include="class\Tile.h" />
+    <ClInclude Include="class\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

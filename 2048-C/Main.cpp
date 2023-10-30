@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include "Tile.h"
-#include "Grid.h"
-#include "Game.h"
+#include "2048-Cons/class/Tile.h"
+#include "2048-Cons/class/Grid.h"
+#include "2048-Cons/class/Game.h"
 
 using namespace std;
 //setfill() permet de remplir des cases vides

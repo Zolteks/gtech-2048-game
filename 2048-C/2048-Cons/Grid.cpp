@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "Grid.h"
+#include "class/Grid.h"
 
 using namespace std;
 

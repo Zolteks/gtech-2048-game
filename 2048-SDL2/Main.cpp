@@ -4,6 +4,8 @@
 //Init class
 #include "class/Window.h"
 #include "class/GameObject.h"
+#include "class/Controls.h"
+
 
 using namespace std;
 

@@ -5,17 +5,25 @@
 
 Controls::Controls()
 {
-
+    enum KeyPressSurfaces
+    {
+        KEY_PRESS_SURFACE_DEFAULT,
+        KEY_PRESS_SURFACE_UP,
+        KEY_PRESS_SURFACE_DOWN,
+        KEY_PRESS_SURFACE_LEFT,
+        KEY_PRESS_SURFACE_RIGHT,
+        KEY_PRESS_SURFACE_TOTAL
+    };
 }
 
-void Controls::moveLoop(SDL_Event event)
+void Controls::moveLoop(SDL_Event event, SDL_Surface surface)
 {
     while (SDL_PollEvent(&event) != 0)
     {
         //User requests quit
         if (event.type == SDL_QUIT)
         {
-            quit = true;
+            return;
         }
         //User presses a key
         else if (event.type == SDL_KEYDOWN)
@@ -24,23 +32,23 @@ void Controls::moveLoop(SDL_Event event)
             switch (event.key.keysym.sym)
             {
             case SDLK_UP:
-                gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_UP];
+                surface = gKeyPressSurfaces[KEY_PRESS_SURFACE_UP];
                 break;
 
             case SDLK_DOWN:
-                gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_DOWN];
+                surface = gKeyPressSurfaces[KEY_PRESS_SURFACE_DOWN];
                 break;
 
             case SDLK_LEFT:
-                gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_LEFT];
+                surface = gKeyPressSurfaces[KEY_PRESS_SURFACE_LEFT];
                 break;
 
             case SDLK_RIGHT:
-                gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_RIGHT];
+                surface = gKeyPressSurfaces[KEY_PRESS_SURFACE_RIGHT];
                 break;
 
             default:
-                gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_DEFAULT];
+                surface = gKeyPressSurfaces[KEY_PRESS_SURFACE_DEFAULT];
                 break;
             }
         }

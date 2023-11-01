@@ -1,6 +1,7 @@
 #pragma once
+#include "GameObject.h"
 
-class Tile
+class Tile : GameObject
 {
 public:
     int x, y, val;

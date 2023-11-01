@@ -12,6 +12,8 @@ using namespace std;
 
 int main(int argc, char* args[])
 {
+    bool running = true;
+
     #define SCREEN_WIDTH 1280
     #define SCREEN_HEIGHT 720
 
@@ -21,6 +23,7 @@ int main(int argc, char* args[])
     Window window(SCREEN_WIDTH, SCREEN_HEIGHT, &error);
     window.createRenderer();
     GameObject entity;
+    Grid grid(4);
 
 
     /*   Tests   */
@@ -38,8 +41,6 @@ int main(int argc, char* args[])
         Tile tile(x, y, w, h, val);
         tiles.push_back(tile);
     }
-
-
     
     int size = 5;
 

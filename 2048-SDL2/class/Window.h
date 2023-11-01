@@ -13,6 +13,4 @@ public:
 	bool createRenderer();
 
 	void update();
-
-	bool createRenderer();
 };

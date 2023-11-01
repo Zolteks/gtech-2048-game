@@ -12,10 +12,14 @@ using namespace std;
 
 int main(int argc, char* args[])
 {
-    bool running = true;
-
     #define SCREEN_WIDTH 1280
     #define SCREEN_HEIGHT 720
+
+    Grid grid(4);
+    grid.spawnBlock(0);
+    grid.draw();
+
+    bool running = true;
 
     SDL_Event event;
 
@@ -23,7 +27,6 @@ int main(int argc, char* args[])
     Window window(SCREEN_WIDTH, SCREEN_HEIGHT, &error);
     window.createRenderer();
     GameObject entity;
-    Grid grid(4);
 
 
     /*   Tests   */

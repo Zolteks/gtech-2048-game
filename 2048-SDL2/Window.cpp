@@ -5,8 +5,9 @@
 
 using namespace std;
 
-Window::Window(bool* error)
+Window::Window(int width, int height, bool* error)
 {
+
     *error = false;
 
     //Initialize SDL
@@ -18,7 +19,7 @@ Window::Window(bool* error)
     }
 
     //Create window
-    gWindow = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+    gWindow = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_SHOWN);
     if (gWindow == NULL)
     {
         cout << "Window could not be created! SDL_Error: " << SDL_GetError() << endl;
@@ -29,6 +30,9 @@ Window::Window(bool* error)
 
 Window::~Window()
 {
+    SDL_DestroyRenderer(gRenderer);
+    gRenderer = NULL;
+
     SDL_DestroyWindow(gWindow);
     gWindow = NULL;
 
@@ -38,7 +42,6 @@ Window::~Window()
 bool Window::createRenderer()
 {
     bool success = true;
-    //gScreenSurface = SDL_GetWindowSurface(gWindow);
     gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);
     if (gRenderer == NULL)
     {
@@ -52,5 +55,6 @@ bool Window::createRenderer()
 
 void Window::update()
 {
-
+    //Update screen
+    SDL_RenderPresent(gRenderer);
 }

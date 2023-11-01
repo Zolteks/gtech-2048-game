@@ -26,6 +26,28 @@ int main(int argc, char* args[])
     bool error;
     Window window(SCREEN_WIDTH, SCREEN_HEIGHT, &error);
     window.createRenderer();
+    GameObject entity;
+
+
+    /*   Tests   */
+
+    int x = 0, y = 0, w = 50, h = 50;
+    int offsetX = 10;
+
+
+    /* Tiles init */
+    vector<Tile> tiles;
+    Tile tile(x, y, w, h, 0);
+    tiles.push_back(tile);
+    for (int val = 2; val <= 2048; val = val * 2)
+    {
+        Tile tile(x, y, w, h, val);
+        tiles.push_back(tile);
+    }
+    
+    int size = 5;
+
+    SDL_Rect fillRect;
 
     if (error)
     {
@@ -99,6 +121,19 @@ int main(int argc, char* args[])
             }
         }
 
+        //Clear screen
+        SDL_SetRenderDrawColor(window.gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
+        /*int offsetX = SCREEN_HEIGHT / 2;
+        int offsetY = SCREEN_HEIGHT / 4;
+        int space = 110;
+        for (x = offsetX; x < size * space + offsetX; x += space)
+        {
+            for (y = 100; y < size * space; y += space)
+            {
+                fillRect = { x, y, w, h };
+                entity.draw(window.gRenderer);
+            }
+        }*/
         window.update();
     }
 

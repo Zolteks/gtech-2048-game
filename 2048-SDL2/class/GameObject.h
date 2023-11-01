@@ -7,7 +7,7 @@ public:
     int x, y, w, h;
     GameObject();
 
-    void resize();
+    ~GameObject();
 
     void draw(SDL_Renderer* gRenderer);
 

@@ -4,13 +4,17 @@
 class Tile : GameObject
 {
 public:
-    int x, y, val;
+    int val;
 
-    Tile(int x = 0, int y = 0, int val = 2);
+    Tile(int x = 0, int y = 0, int w = 50, int h = 50, int val = 0);
 
     int getVal();
 
     int getX();
 
     int getY();
+
+    int getWidth();
+
+    int getHeight();
 };

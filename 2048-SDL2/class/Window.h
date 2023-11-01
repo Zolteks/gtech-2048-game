@@ -9,12 +9,11 @@ public:
 	#define SCREEN_WIDTH 1280
 	#define SCREEN_HEIGHT 720
 
-	Window();
-	
-	bool init();
+	Window(int width, int height, bool* error);
+
+	~Window();
 
 	void update();
 
-	void close();
-
+	bool createRenderer();
 };

@@ -6,13 +6,12 @@
 #include "class/Window.h"
 #include "class/GameObject.h"
 #include "class/Tile.h"
+#include "class/Grid.h"
 
 using namespace std;
 
-int main( int argc, char* args[] )
+int main(int argc, char* args[])
 {
-    bool quit = false;
-
     #define SCREEN_WIDTH 1280
     #define SCREEN_HEIGHT 720
 
@@ -52,15 +51,16 @@ int main( int argc, char* args[] )
         exit(0);
     }
 
-    while (!quit)
+    while (running)
     {
+        int direction= -1;
         //Handle events on queue
         while (SDL_PollEvent(&event) != 0)
         {
             //User requests quit
             if (event.type == SDL_QUIT)
             {
-                return 0;
+                running = false;
             }
             //User presses a key
             if (event.type == SDL_KEYDOWN)
@@ -70,23 +70,49 @@ int main( int argc, char* args[] )
                 {
                 case SDLK_UP:
                     cout << "pressed up" << endl;
+                    direction = 0;
                     break;
 
                 case SDLK_DOWN:
                     cout << "pressed down" << endl;
+                    direction = 1;
                     break;
 
                 case SDLK_LEFT:
                     cout << "pressed left" << endl;
+                    direction = 2;
                     break;
 
                 case SDLK_RIGHT:
                     cout << "pressed right" << endl;
+                    direction = 3;
                     break;
 
                 default:
-                    cout << "pressed idk which key" << endl;
+                    cout << "pressed idk which fcking key" << endl;
                     break;
+                }
+            }
+        }
+        if (direction != -1)
+        {
+            grid.merge(direction);
+            grid.moveBlocks(direction);
+            if (!grid.checkFreeTiles())
+                grid.spawnBlock(0);
+            grid.draw();
+            if (grid.checkVictory())
+            {
+                cout << "Victoire" << endl << endl;
+                running = false;
+            }
+            if (grid.checkFreeTiles())
+            {
+                cout << "Possibilite de merge : " << grid.checkMerge() << endl;
+                if (grid.checkMerge() == 0)
+                {
+                    cout << "Perdu" << endl << endl;
+                    running = false;
                 }
             }
         }
@@ -104,9 +130,8 @@ int main( int argc, char* args[] )
                 entity.draw(window.gRenderer);
             }
         }*/
-
         window.update();
     }
 
-	return 0;
+    return 0;
 }

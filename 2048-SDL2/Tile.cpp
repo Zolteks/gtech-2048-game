@@ -48,3 +48,4 @@ int Tile::getHeight()
  COLOR_1024 = Color.rgb(237, 197, 63);
  COLOR_2048 = Color.rgb(237, 194, 46);
  */
+}

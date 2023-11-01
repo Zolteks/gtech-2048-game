@@ -1,20 +1,12 @@
 #pragma once
 #include "GameObject.h"
 
-class Tile : GameObject
-{
+class Tile : public GameObject {
 public:
-    int val;
-
-    Tile(int x = 0, int y = 0, int w = 50, int h = 50, int val = 0);
-
+    Tile(SDL_Renderer* renderer, int x, int y, int width, int height, SDL_Color color, int value);
     int getVal();
 
-    int getX();
-
-    int getY();
-
-    int getWidth();
-
-    int getHeight();
+    // Ajoutez d'autres méthodes spécifiques aux tuiles ici
+private:
+    int value;
 };

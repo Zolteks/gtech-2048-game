@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SDL.h>
+#include <SDL_render.h>
 #include <vector>
 
 //Init class
@@ -15,45 +16,22 @@ int main(int argc, char* args[])
     #define SCREEN_WIDTH 1280
     #define SCREEN_HEIGHT 720
 
-    Grid grid(4);
-    grid.spawnBlock(0);
-    grid.draw();
-
-    bool running = true;
-
     SDL_Event event;
 
     bool error;
     Window window(SCREEN_WIDTH, SCREEN_HEIGHT, &error);
     window.createRenderer();
-    GameObject entity;
-
-
-    /*   Tests   */
-
-    int x = 0, y = 0, w = 50, h = 50;
-    int offsetX = 10;
-
-
-    /* Tiles init */
-    vector<Tile> tiles;
-    Tile tile(x, y, w, h, 0);
-    tiles.push_back(tile);
-    for (int val = 2; val <= 2048; val = val * 2)
-    {
-        Tile tile(x, y, w, h, val);
-        tiles.push_back(tile);
-    }
     
-    int size = 5;
-
-    SDL_Rect fillRect;
-
     if (error)
     {
         cout << "Failed to initialize!" << endl;
         exit(0);
     }
+
+    //Tile tile(window.gRenderer, 100, 100, 50, 50, { 237, 224, 200, 255 }, 2);
+    Grid grid(window.gRenderer, 4, 4, 50, 20);
+
+    bool running = true;
 
     while (running)
     {
@@ -98,7 +76,7 @@ int main(int argc, char* args[])
                 }
             }
         }
-        if (direction != -1)
+        /*if (direction != -1)
         {
             grid.merge(direction);
             grid.moveBlocks(direction);
@@ -119,19 +97,19 @@ int main(int argc, char* args[])
                     running = false;
                 }
             }
-        }
-
-        //Clear screen
+        } */
+        //SDL_RenderClear(window.gRenderer);
         SDL_SetRenderDrawColor(window.gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
-        /*int offsetX = SCREEN_HEIGHT / 2;
-        int offsetY = SCREEN_HEIGHT / 4;
-        int space = 110;
-        for (x = offsetX; x < size * space + offsetX; x += space)
+
+        /* Tiles init */
+        grid.draw();
+        
+        /*for (x = 0; x < size * space; x += space)
         {
-            for (y = 100; y < size * space; y += space)
+            for (y = 0; y < size * space; y += space)
             {
                 fillRect = { x, y, w, h };
-                entity.draw(window.gRenderer);
+                oGameObject.draw(window.gRenderer, fillRect);
             }
         }*/
         window.update();

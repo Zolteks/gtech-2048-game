@@ -1,38 +1,23 @@
 #include "class/Tile.h"
 
-Tile::Tile(int x, int y, int w, int h, int val)
-{
-    this->x = x;
-    this->y = y;
-    this->w = w;
-    this->h = h;
-    this->val = val;
-}
+Tile::Tile(SDL_Renderer* renderer, int x, int y, int width, int height, SDL_Color color, int value)
+    : GameObject(renderer, x, y, width, height, color), value(value) 
+{}
 
 int Tile::getVal()
 {
-    return this->val;
+    return value;
 }
 
-int Tile::getX()
-{
-    return this->x;
-}
-
-int Tile::getY()
-{
-    return this->y;
-}
-
-int Tile::getWidth()
-{
-    return this->w;
-}
-
-int Tile::getHeight()
-{
-    return this->h;
-}
+//int Tile::getX()
+//{
+//    return this->x;
+//}
+//
+//int Tile::getY()
+//{
+//    return this->y;
+//}
 
 /*
  COLOR_EMPTY = Color.rgb(204, 192, 179);

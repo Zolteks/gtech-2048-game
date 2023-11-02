@@ -2,7 +2,6 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <SDL_render.h>
-#include <SDL_ttf.h>
 #include <vector>
 
 //Init class
@@ -19,23 +18,27 @@ int main(int argc, char* args[])
     #define SCREEN_WIDTH 1280
     #define SCREEN_HEIGHT 720
 
+    SDL_Event event;
+
     bool error;
     Window window(SCREEN_WIDTH, SCREEN_HEIGHT, &error);
     window.createRenderer();
-
-
+    
     if (error)
     {
         cout << "Failed to initialize!" << endl;
         exit(0);
     }
 
+    if (TTF_Init() == -1) {
+        cout << "Failed to initialize TTF!" << endl;
+        exit(0);
+    }
 
     //Tile tile(window.gRenderer, 100, 100, 50, 50, { 237, 224, 200, 255 }, 2);
-    Grid grid(window.gRenderer, 4, 4, 50, 10);
+    Grid grid(window.gRenderer, 4, 4, 50, 20);
     grid.spawnBlock(0);
 
-    SDL_Event event;
     bool running = true;
 
     while (running)
@@ -104,8 +107,7 @@ int main(int argc, char* args[])
         }
         SDL_SetRenderDrawColor(window.gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
-        grid.draw();
-      
+        //grid.draw();
         window.update();
     }
 

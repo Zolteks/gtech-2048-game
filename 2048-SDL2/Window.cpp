@@ -1,8 +1,5 @@
 #include <iostream>
 #include <SDL.h>
-#include <vector>
-#include <string>
-#include <SDL_ttf.h>
 
 #include "class/Window.h"
 
@@ -29,40 +26,6 @@ Window::Window(int width, int height, bool* error)
         *error = true;
         return;
     }
-
-    if (TTF_Init() == -1) {
-        cout << "Failed to initialize TTF!" << endl;
-        *error = true;
-        return;
-    }
-
-    //Initialistaion de SDL_TTF
-    TTF_Font* font = TTF_OpenFont("arial.ttf", 24);
-    if (!font)
-    {
-        cout << "Failed to initialize ttf : " << SDL_GetError() << endl;
-        *error = true;
-        return;
-    }
-
-    //Initialistaion des Textures
-    SDL_Color color;
-    for (int i = 2; i <= 2048; i = i * 2)
-    {
-        string textValue = to_string(i);
-        if (i <= 4)
-            color = { 105, 105, 105, 255 };
-        else
-            color = { 255, 245, 238, 255 };
-        
-        pSurface = TTF_RenderText_Solid(font, textValue.c_str(), color);
-        pTexture = SDL_CreateTextureFromSurface(gRenderer, pSurface);
-        
-        SDL_FreeSurface(pSurface);
-
-        textures[i] = pTexture;
-    }
-
 }
 
 Window::~Window()

@@ -1,15 +1,17 @@
-#include <iostream>
-#include <string>
-#include <SDL_ttf.h>
 #include "class/Tile.h"
 #include <SDL_ttf.h>
 #include <string>
 #include <iostream>
 
 Tile::Tile(SDL_Renderer* renderer, int x, int y, int width, int height, SDL_Color color, int value)
-    : GameObject(renderer, x, y, width, height, color), pNumberTexture(pNumberTexture), value(value)
+    : GameObject(renderer, x, y, width, height, color), value(value)
 {
-    
+    font = TTF_OpenFont("arial.ttf", 24);
+    if (!font)
+    {
+        std::cout << "exit" << std::endl;
+        
+    }
 }
 
 int Tile::getValue()
@@ -83,18 +85,18 @@ void Tile::draw()
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     SDL_RenderFillRect(renderer, &rect);
 
-    // Crï¿½ez une surface SDL_ttf ï¿½ partir du texte
+    // Créez une surface SDL_ttf à partir du texte
     SDL_Surface* textSurface = TTF_RenderText_Solid(font, textValue.c_str(), textColor);
 
     if (textSurface) {
-        // Crï¿½ez une texture ï¿½ partir de la surface
+        // Créez une texture à partir de la surface
         SDL_Texture* textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
 
         // Obtenez les dimensions du texte
         int textWidth = textSurface->w;
         int textHeight = textSurface->h;
 
-        // Dï¿½finissez les coordonnï¿½es pour le texte (ajustez-les pour le placement souhaitï¿½)
+        // Définissez les coordonnées pour le texte (ajustez-les pour le placement souhaité)
         int textX = x + (width - textWidth) / 2;
         int textY = y + (height - textHeight) / 2;
 
@@ -102,43 +104,13 @@ void Tile::draw()
         SDL_Rect textRect = { textX, textY, textWidth, textHeight };
         SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
 
-        // Libï¿½rez la surface et la texture
+        // Libérez la surface et la texture
         SDL_FreeSurface(textSurface);
         //SDL_DestroyTexture(textTexture);
     }
     /*SDL_Surface* textSurface = TTF_RenderText_Solid(font, textValue.c_str(), textColor);
     textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);*/
 
-}
-
-//int Tile::getX()
-//{
-//    return x;
-//}
-//
-//int Tile::getY()
-//{
-//    return y;
-//}
-
-void Tile::setValue(int value)
-{
-    this->value = value;
-    this->textValue = std::to_string(value);
-
-    if (value == 0)
-        return;
-
-    pNumberTexture = (*textures)[value];
- 
-    /* SDL_Surface textSurface = TTF_RenderText_Solid(font, textValue.c_str(), textColor);
-    textTexture = SDL_CreateTextureFromSurface(renderer, textSurface); */
-}
-
-void Tile::draw()
-{
-    GameObject::draw();
-    SDL_RenderCopy(renderer, pNumberTexture, NULL, &rect );
 }
 
 //int Tile::getX()

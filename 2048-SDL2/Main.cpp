@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SDL.h>
 #include <SDL_render.h>
+#include <SDL_ttf.h>
 #include <vector>
 
 //Init class
@@ -16,21 +17,20 @@ int main(int argc, char* args[])
     #define SCREEN_WIDTH 1280
     #define SCREEN_HEIGHT 720
 
-    SDL_Event event;
-
     bool error;
     Window window(SCREEN_WIDTH, SCREEN_HEIGHT, &error);
     window.createRenderer();
-    
+
+
     if (error)
     {
         cout << "Failed to initialize!" << endl;
         exit(0);
     }
 
-    //Tile tile(window.gRenderer, 100, 100, 50, 50, { 237, 224, 200, 255 }, 2);
-    Grid grid(window.gRenderer, 4, 4, 50, 20);
+    Grid grid(window.gRenderer, 4, 4, 50, 10);
 
+    SDL_Event event;
     bool running = true;
 
     while (running)
@@ -101,17 +101,10 @@ int main(int argc, char* args[])
         //SDL_RenderClear(window.gRenderer);
         SDL_SetRenderDrawColor(window.gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
-        /* Tiles init */
+        
         grid.draw();
         
-        /*for (x = 0; x < size * space; x += space)
-        {
-            for (y = 0; y < size * space; y += space)
-            {
-                fillRect = { x, y, w, h };
-                oGameObject.draw(window.gRenderer, fillRect);
-            }
-        }*/
+
         window.update();
     }
 

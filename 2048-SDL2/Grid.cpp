@@ -5,7 +5,7 @@
 using namespace std;
 
 Grid::Grid(SDL_Renderer* renderer, int rows, int columns, int tileSize, int tileSpacing) 
-    : renderer(renderer), rows(rows), columns(columns), tileSize(tileSize) {
+    : renderer(renderer), rows(rows), columns(columns), tileSize(tileSize), tileSpacing(tileSpacing) {
     // Initialisez la grille de tuiles
     grid.resize(rows, std::vector<Tile>(columns, Tile(renderer, 0, 0, tileSize, tileSize, { 255, 255, 255, 255 }, 0)));
 
@@ -23,7 +23,8 @@ Grid::Grid(SDL_Renderer* renderer, int rows, int columns, int tileSize, int tile
     }
 }
 
-void Grid::draw() {
+void Grid::draw() 
+{
     for (int row = 0; row < rows; row++) {
         for (int col = 0; col < columns; col++) {
             grid[row][col].draw();

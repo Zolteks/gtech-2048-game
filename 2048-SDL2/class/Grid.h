@@ -1,21 +1,15 @@
 #pragma once
 
 #include <vector>
-#include "Tile.h"
+#include "tile.h"
 
-using namespace std;
-
-class Grid
-{
+class Grid {
 public:
-    vector<vector<Tile>> grid;
-    vector<Tile> freeTiles;
-    int gridSize;
-    Grid(int size = 4);
+    Grid(SDL_Renderer* renderer, int rows, int columns, int tileSize, int tileSpacing);
 
     void draw();
 
-    bool checkFreeTiles();
+   /* bool checkFreeTiles();
 
     void newFreeTile(int x, int y);
 
@@ -29,5 +23,16 @@ public:
 
     bool checkVictory();
 
-    int checkMerge();
+    int checkMerge();*/
+
+private:
+    SDL_Renderer* renderer;
+    int rows;
+    int columns;
+    int tileSize;
+    int tileSpacing;
+    std::vector<std::vector<Tile>> grid;
 };
+
+
+    

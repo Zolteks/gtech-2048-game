@@ -1,14 +1,18 @@
 #pragma once
 #include <SDL.h>
+#include <SDL_render.h>
 
-class GameObject
-{
+class GameObject {
 public:
-    int x, y, w, h;
-    GameObject();
+    GameObject(SDL_Renderer* renderer, int x, int y, int width, int height, SDL_Color color);
 
     ~GameObject();
 
-    void draw(SDL_Renderer* gRenderer);
+    void draw();
 
+    // Ajoutez d'autres méthodes si nécessaire
+private:
+    SDL_Renderer* renderer;
+    int x, y, width, height;
+    SDL_Color color;
 };

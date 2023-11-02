@@ -2,22 +2,26 @@
 #include "GameObject.h"
 #include <string>
 #include <SDL_ttf.h>
+#include <iostream>
+#include <map>
 
 class Tile : public GameObject {
 public:
     Tile(SDL_Renderer* renderer, int x, int y, int width, int height, SDL_Color color, int value);
 
-    int getX();
-    int getY();
     int getValue();
+
+    int getX();
+
+    int getY();
+
     void setValue(int value);
 
-    void draw();
-    // Ajoutez d'autres méthodes spécifiques aux tuiles ici
+    void draw() override;
 private:
+    std::map<int, SDL_Texture*>* textures;
+
+    SDL_Texture* pNumberTexture;
     int value;
     std::string textValue;
-    SDL_Texture* textTexture;
-    TTF_Font* font;
-    SDL_Color textColor;
 };

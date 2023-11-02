@@ -3,15 +3,17 @@
 #include <vector>
 #include "tile.h"
 
+using namespace std;
+
 class Grid {
 public:
     Grid(SDL_Renderer* renderer, int rows, int columns, int tileSize, int tileSpacing);
 
     void draw();
 
-   /* bool checkFreeTiles();
+    bool checkFreeTiles();
 
-    void newFreeTile(int x, int y);
+    void newFreeTile(int x, int y, int w, int h);
 
     Tile getFreeTile();
 
@@ -23,7 +25,7 @@ public:
 
     bool checkVictory();
 
-    int checkMerge();*/
+    int checkMerge();
 
 private:
     SDL_Renderer* renderer;
@@ -31,8 +33,7 @@ private:
     int columns;
     int tileSize;
     int tileSpacing;
-    std::vector<std::vector<Tile>> grid;
+    vector<vector<Tile>> grid;
+    vector<Tile> freeTiles;
+    int gridSize;
 };
-
-
-    

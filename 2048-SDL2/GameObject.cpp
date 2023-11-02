@@ -6,19 +6,18 @@
 
 using namespace std;
 
-GameObject::GameObject()
-{
-    
-}
+GameObject::GameObject(SDL_Renderer* renderer, int x, int y, int width, int height, SDL_Color color)
+    : renderer(renderer), x(x), y(y), width(width), height(height), color(color) 
+{}
 
 GameObject::~GameObject()
 {
 
 }
 
-void GameObject::draw(SDL_Renderer* gRenderer)
+void GameObject::draw() 
 {
-    SDL_Rect fillRect = { x, y, w, h };
-    SDL_SetRenderDrawColor(gRenderer, 255, 192, 203, 0xFF);
-    SDL_RenderFillRect(gRenderer, &fillRect);
+    SDL_Rect rect = { x, y, width, height };
+    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+    SDL_RenderFillRect(renderer, &rect);
 }

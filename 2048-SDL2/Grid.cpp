@@ -4,39 +4,34 @@
 
 using namespace std;
 
-Grid::Grid(int size)
-{
-    this->gridSize = size;
-    this->grid.resize(size);
-    for (int i = 0; i < size; i++)
-    {
-        this->grid[i].resize(size);
-    }
-    //initialisation de la grille
-    for (int i = 0; i < this->gridSize; i++)
-    {
-        for (int j = 0; j < this->gridSize; j++)
-        {
-            this->grid[i][j].val = 0;
+Grid::Grid(SDL_Renderer* renderer, int rows, int columns, int tileSize, int tileSpacing) 
+    : renderer(renderer), rows(rows), columns(columns), tileSize(tileSize) {
+    // Initialisez la grille de tuiles
+    grid.resize(rows, std::vector<Tile>(columns, Tile(renderer, 0, 0, tileSize, tileSize, { 255, 255, 255, 255 }, 0)));
+
+    // Calculez la largeur et la hauteur de l'espace entre les tuiles
+    int spacingX = tileSpacing;
+    int spacingY = tileSpacing;
+
+    // Initialisation des valeurs des tuiles à zéro et avec un espacement
+    for (int row = 0; row < rows; row++) {
+        for (int col = 0; col < columns; col++) {
+            int tileX = col * (tileSize + spacingX);
+            int tileY = row * (tileSize + spacingY);
+            grid[row][col] = Tile(renderer, tileX, tileY, tileSize, tileSize, { 204, 192, 179, 255 }, 0);
         }
     }
 }
 
-void Grid::draw()
-{
-    system("cls");
-    for (int i = 0; i < this->gridSize; i++)
-    {
-        for (int j = 0; j < this->gridSize; j++)
-        {
-            cout << "|" << this->grid[i][j].val << "\t";
+void Grid::draw() {
+    for (int row = 0; row < rows; row++) {
+        for (int col = 0; col < columns; col++) {
+            grid[row][col].draw();
         }
-        cout << "|" << endl;
     }
-    cout << endl;
 }
 
-bool Grid::checkFreeTiles()
+/*bool Grid::checkFreeTiles()
 {
     freeTiles.clear();
     int counter = 0;
@@ -328,4 +323,4 @@ int Grid::checkMerge()
         }
     }
     return count;
-}
+}*/

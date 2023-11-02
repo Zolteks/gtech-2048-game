@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SDL.h>
+#include <SDL_ttf.h>
 #include <SDL_render.h>
 #include <vector>
 
@@ -13,6 +14,7 @@ using namespace std;
 
 int main(int argc, char* args[])
 {
+    //srand(time(0));
     #define SCREEN_WIDTH 1280
     #define SCREEN_HEIGHT 720
 
@@ -28,8 +30,14 @@ int main(int argc, char* args[])
         exit(0);
     }
 
+    if (TTF_Init() == -1) {
+        cout << "Failed to initialize TTF!" << endl;
+        exit(0);
+    }
+
     //Tile tile(window.gRenderer, 100, 100, 50, 50, { 237, 224, 200, 255 }, 2);
     Grid grid(window.gRenderer, 4, 4, 50, 20);
+    grid.spawnBlock(0);
 
     bool running = true;
 
@@ -71,12 +79,11 @@ int main(int argc, char* args[])
                     break;
 
                 default:
-                    cout << "pressed idk which fcking key" << endl;
                     break;
                 }
             }
         }
-        /*if (direction != -1)
+        if (direction != -1)
         {
             grid.merge(direction);
             grid.moveBlocks(direction);
@@ -97,21 +104,10 @@ int main(int argc, char* args[])
                     running = false;
                 }
             }
-        } */
-        //SDL_RenderClear(window.gRenderer);
+        }
         SDL_SetRenderDrawColor(window.gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
-        /* Tiles init */
-        grid.draw();
-        
-        /*for (x = 0; x < size * space; x += space)
-        {
-            for (y = 0; y < size * space; y += space)
-            {
-                fillRect = { x, y, w, h };
-                oGameObject.draw(window.gRenderer, fillRect);
-            }
-        }*/
+        //grid.draw();
         window.update();
     }
 

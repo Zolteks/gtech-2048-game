@@ -14,7 +14,7 @@ using namespace std;
 
 int main(int argc, char* args[])
 {
-    srand(time(0));
+    //srand(time(0));
     #define SCREEN_WIDTH 1280
     #define SCREEN_HEIGHT 720
 
@@ -104,21 +104,10 @@ int main(int argc, char* args[])
                     running = false;
                 }
             }
-        } 
-        //SDL_RenderClear(window.gRenderer);
+        }
         SDL_SetRenderDrawColor(window.gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
-        /* Tiles init */
-        grid.draw();
-        
-        /*for (x = 0; x < size * space; x += space)
-        {
-            for (y = 0; y < size * space; y += space)
-            {
-                fillRect = { x, y, w, h };
-                oGameObject.draw(window.gRenderer, fillRect);
-            }
-        }*/
+        //grid.draw();
         window.update();
     }
 

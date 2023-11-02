@@ -32,48 +32,50 @@ int Tile::getY()
 
 void Tile::setValue(int value)
 {
-    /*STD_map << int, SDL_Color > colorMap{
-        {2 , 255, 65 , 248, 255}
-    }
-
-    SDL_Color color;
-    color = tile.colorMap.find(tile.getValue()))
-    SDL_...(renderer, color.r, color.g, color.b, color.a)*/
     switch (value)
     {
     case 2:
         color = { 238, 228, 218, 255 };
+        break;
     case 4:
         color = { 237, 224, 200, 255 };
+        break;
     case 8:
         color = { 237, 224, 200, 255 };
+        break;
     case 16:
         color = { 242, 177, 121, 255 };
+        break;
     case 32:
         color = { 246, 124, 95, 255 };
+        break;
     case 64:
         color = { 246, 94, 59, 255 };
+        break;
     case 128:
         color = { 237, 207, 114, 255 };
+        break;
     case 256:
         color = { 237, 204, 97, 255 };
+        break;
     case 512:
         color = { 237, 200, 80, 255 };
+        break;
     case 1024:
         color = { 237, 197, 63, 255 };
+        break;
     case 2048:
         color = { 237, 194, 46, 255 };
+        break;
     }
-
-    std::cout << "value updated to: " << value << std::endl;
 
     this->value = value;
     this->textValue = std::to_string(value);
 
-    if (value <= 4)
-        this->textColor = { 255, 255, 255, 255 };
-    else
+    if (value <= 8)
         this->textColor = { 0, 0, 0, 255 };
+    else
+        this->textColor = { 255, 255, 255, 255 };
 
 }
 

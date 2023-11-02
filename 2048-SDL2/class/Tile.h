@@ -6,6 +6,7 @@ public:
     Tile(SDL_Renderer* renderer, int x, int y, int width, int height, SDL_Color color, int value);
     int getVal();
 
+    void draw();
     // Ajoutez d'autres méthodes spécifiques aux tuiles ici
 private:
     int value;

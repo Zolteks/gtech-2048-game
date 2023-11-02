@@ -1,12 +1,21 @@
 #include "class/Tile.h"
+#include <SDL_ttf.h>
 
 Tile::Tile(SDL_Renderer* renderer, int x, int y, int width, int height, SDL_Color color, int value)
-    : GameObject(renderer, x, y, width, height, color), value(value) 
+    : GameObject(renderer, x, y, width, height, color), value(value)
 {}
 
 int Tile::getVal()
 {
     return value;
+}
+
+void Tile::draw()
+{
+    SDL_Rect rect = { x, y, width, height };
+    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+    SDL_RenderFillRect(renderer, &rect);
+    TTF_RenderText_Solid();
 }
 
 //int Tile::getX()

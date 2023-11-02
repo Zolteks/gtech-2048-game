@@ -15,9 +15,9 @@ GameObject::~GameObject()
 
 }
 
-void GameObject::draw() 
-{
-    SDL_Rect rect = { x, y, width, height };
-    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
-    SDL_RenderFillRect(renderer, &rect);
-}
+//void GameObject::draw()
+//{
+//    SDL_Rect rect = { x, y, width, height };
+//    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+//    SDL_RenderFillRect(renderer, &rect);
+//}

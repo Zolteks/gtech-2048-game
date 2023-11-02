@@ -1,12 +1,14 @@
 #pragma once
 #include "GameObject.h"
+#include <string>
+#include <SDL_ttf.h>
 #include <iostream>
 #include <map>
 
 class Tile : public GameObject {
 public:
     Tile(SDL_Renderer* renderer, int x, int y, int width, int height, SDL_Color color, int value);
-    
+
     int getValue();
 
     int getX();
@@ -16,7 +18,6 @@ public:
     void setValue(int value);
 
     void draw() override;
-
 private:
     std::map<int, SDL_Texture*>* textures;
 

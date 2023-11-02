@@ -75,8 +75,8 @@
     <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(ProjectDir)..\SDL2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)..\SDL2\lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)..\SDL2\include;$(ProjectDir)..\SDL2_ttf\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)..\SDL2\lib\x86;$(ProjectDir)..\SDL2_ttf\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

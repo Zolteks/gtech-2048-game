@@ -7,17 +7,17 @@ using namespace std;
 
 class Grid {
 public:
-    Grid(SDL_Renderer* renderer, int rows, int columns, int tileSize, int tileSpacing);
+    Grid(SDL_Renderer* renderer, int rows, int columns, int tileSize, int tileSpacing, std::map<int, SDL_Texture*>* map);
 
     void draw();
 
-    //void newFreeTile(int x, int y, int w, int h);
+    void newFreeTile(int x, int y, int w, int h);
 
-    //Tile getFreeTile();
+    Tile getFreeTile();
 
     void spawnBlock(int useCase);
 
-    bool checkFreeTiles(int& row, int& col);
+    bool checkFreeTiles(/*int& row, int& col*/);
 
     void merge(int direction);
 
@@ -28,6 +28,7 @@ public:
     int checkMerge();
 
 protected:
+
     SDL_Renderer* renderer;
     int rows;
     int columns;

@@ -71,6 +71,7 @@ Window::Window(int width, int height, bool* error)
         SDL_FreeSurface(pSurface);
 
         textures[i] = pTexture;
+        cout << "Texture égale à : " << pTexture << endl;
         
         if (textures.find(i) != textures.end()) {
             // La clé i existe, accédez à la texture

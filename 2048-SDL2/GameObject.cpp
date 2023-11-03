@@ -17,7 +17,7 @@ GameObject::~GameObject()
 
 }
 
-void GameObject::draw() 
+void GameObject::draw()
 {
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
     SDL_RenderFillRect(renderer, &rect);

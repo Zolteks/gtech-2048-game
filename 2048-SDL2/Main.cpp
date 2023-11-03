@@ -16,13 +16,12 @@ using namespace std;
 
 int main(int argc, char* args[])
 {
-    //srand(time(0));
+    srand(time(0));
     #define SCREEN_WIDTH 1280
     #define SCREEN_HEIGHT 720
 
     bool error;
     Window window(SCREEN_WIDTH, SCREEN_HEIGHT, &error);
-
 
     if (error)
     {
@@ -30,9 +29,8 @@ int main(int argc, char* args[])
         exit(0);
     }
 
-
     //Tile tile(window.gRenderer, 100, 100, 50, 50, { 237, 224, 200, 255 }, 2);
-    Grid grid(window.gRenderer, 4, 4, 50, 10);
+    Grid grid(window.gRenderer, 4, 4, 50, 10, &window.textures);
     grid.spawnBlock(0);
 
     SDL_Event event;
@@ -101,13 +99,6 @@ int main(int argc, char* args[])
                     running = false;
                 }
             }*/
-        }
-        else
-        {
-            while (direction <= 0)
-            {
-                Sleep(1);
-            }
         }
         SDL_SetRenderDrawColor(window.gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 

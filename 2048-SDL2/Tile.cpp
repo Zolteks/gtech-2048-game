@@ -5,10 +5,10 @@
 
 using namespace std;
 
-Tile::Tile(SDL_Renderer* renderer, int x, int y, int width, int height, SDL_Color color, int value)
+Tile::Tile(SDL_Renderer* renderer, int x, int y, int width, int height, SDL_Color color, int value, std::map<int, SDL_Texture*>* map)
     : GameObject(renderer, x, y, width, height, color), value(value)
 {
-    
+    textures = map;
 }
 
 int Tile::getValue()
@@ -34,7 +34,7 @@ void Tile::setValue(int value)
     if (value == 0)
         return;
 
-    /*switch (value)
+    switch (value)
     {
     case 2:
         color = { 238, 228, 218, 255 };
@@ -69,10 +69,12 @@ void Tile::setValue(int value)
     case 2048:
         color = { 237, 194, 46, 255 };
         break;
-    }*/
+    }
 
     cout << "La valeur actuelle est " << value << endl;
     pNumberTexture = (*textures)[value];
+    cout << "error passed" << endl;
+
 
 }
 

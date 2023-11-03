@@ -7,7 +7,7 @@
 using namespace std;
 
 GameObject::GameObject(SDL_Renderer* renderer, int x, int y, int width, int height, SDL_Color color)
-    : renderer(renderer), color(color) 
+    : renderer(renderer), x(x), y(y), width(width), height(height), color(color)
 {
     rect = { x, y, width, height };
 }

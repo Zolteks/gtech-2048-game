@@ -1,7 +1,5 @@
 #pragma once
 #include "GameObject.h"
-#include <string>
-#include <SDL_ttf.h>
 #include <iostream>
 #include <map>
 
@@ -18,10 +16,11 @@ public:
     void setValue(int value);
 
     void draw() override;
-private:
+
+protected:
     std::map<int, SDL_Texture*>* textures;
 
-    SDL_Texture* pNumberTexture;
     int value;
+    SDL_Texture* pNumberTexture;
     std::string textValue;
 };

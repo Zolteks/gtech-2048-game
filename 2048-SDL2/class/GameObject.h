@@ -12,6 +12,7 @@ public:
 
 protected:
     SDL_Renderer* renderer;
+    int x, y, width, height;
     SDL_Rect rect;
     SDL_Color color;
 };

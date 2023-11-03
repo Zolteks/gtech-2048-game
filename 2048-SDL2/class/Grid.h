@@ -11,13 +11,13 @@ public:
 
     void draw();
 
-    bool checkFreeTiles();
+    //void newFreeTile(int x, int y, int w, int h);
 
-    void newFreeTile(int x, int y, int w, int h);
-
-    Tile getFreeTile();
+    //Tile getFreeTile();
 
     void spawnBlock(int useCase);
+
+    bool checkFreeTiles(int& row, int& col);
 
     void merge(int direction);
 
@@ -27,7 +27,7 @@ public:
 
     int checkMerge();
 
-private:
+protected:
     SDL_Renderer* renderer;
     int rows;
     int columns;

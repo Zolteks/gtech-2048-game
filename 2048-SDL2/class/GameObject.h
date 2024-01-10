@@ -10,9 +10,10 @@ public:
 
     //void draw();
 
-    // Ajoutez d'autres méthodes si nécessaire
+    // Ajoutez d'autres mÃ©thodes si nÃ©cessaire
 //private:
     SDL_Renderer* renderer;
     int x, y, width, height;
+    SDL_Rect rect;
     SDL_Color color;
 };

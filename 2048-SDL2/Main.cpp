@@ -1,3 +1,4 @@
+#include <windows.h>
 #include <iostream>
 #include <SDL.h>
 #include <SDL_ttf.h>
@@ -14,7 +15,7 @@ using namespace std;
 
 int main(int argc, char* args[])
 {
-    //srand(time(0));
+    srand(time(0));
     #define SCREEN_WIDTH 1280
     #define SCREEN_HEIGHT 720
 
@@ -22,21 +23,14 @@ int main(int argc, char* args[])
 
     bool error;
     Window window(SCREEN_WIDTH, SCREEN_HEIGHT, &error);
-    window.createRenderer();
-    
     if (error)
     {
         cout << "Failed to initialize!" << endl;
         exit(0);
     }
 
-    if (TTF_Init() == -1) {
-        cout << "Failed to initialize TTF!" << endl;
-        exit(0);
-    }
-
     //Tile tile(window.gRenderer, 100, 100, 50, 50, { 237, 224, 200, 255 }, 2);
-    Grid grid(window.gRenderer, 4, 4, 50, 20);
+    Grid grid(window.gRenderer, 4, 4, 50, 10, &window.textures);
     grid.spawnBlock(0);
 
     bool running = true;
@@ -87,15 +81,15 @@ int main(int argc, char* args[])
         {
             grid.merge(direction);
             grid.moveBlocks(direction);
-            if (!grid.checkFreeTiles())
-                grid.spawnBlock(0);
+            //if (!grid.checkFreeTiles())
+            grid.spawnBlock(0);
             grid.draw();
             if (grid.checkVictory())
             {
                 cout << "Victoire" << endl << endl;
                 running = false;
             }
-            if (grid.checkFreeTiles())
+            /*if (!grid.checkFreeTiles())
             {
                 cout << "Possibilite de merge : " << grid.checkMerge() << endl;
                 if (grid.checkMerge() == 0)
@@ -103,11 +97,12 @@ int main(int argc, char* args[])
                     cout << "Perdu" << endl << endl;
                     running = false;
                 }
-            }
+            }*/
         }
         SDL_SetRenderDrawColor(window.gRenderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
         //grid.draw();
+      
         window.update();
     }
 

@@ -10,7 +10,5 @@ public:
   
 	~Window();
 
-	bool createRenderer();
-
 	void update();
 };

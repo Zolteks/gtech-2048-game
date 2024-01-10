@@ -1,8 +1,5 @@
 #include <iostream>
 #include <SDL.h>
-#include <vector>
-#include <string>
-#include <SDL_ttf.h>
 
 #include "class/Window.h"
 
@@ -71,10 +68,10 @@ Window::Window(int width, int height, bool* error)
         SDL_FreeSurface(pSurface);
 
         textures[i] = pTexture;
-        cout << "Texture égale à : " << pTexture << endl;
+        cout << "Texture ï¿½gale ï¿½ : " << pTexture << endl;
         
         if (textures.find(i) != textures.end()) {
-            // La clé i existe, accédez à la texture
+            // La clï¿½ i existe, accï¿½dez ï¿½ la texture
             cout << "Texture created : " << i << endl;
             // Faites quelque chose avec la texture
         }
@@ -85,7 +82,6 @@ Window::Window(int width, int height, bool* error)
             return;
         }
     }
-
 }
 
 Window::~Window()

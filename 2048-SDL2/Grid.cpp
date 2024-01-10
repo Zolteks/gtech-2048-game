@@ -15,7 +15,7 @@ Grid::Grid(SDL_Renderer* renderer, int rows, int columns, int tileSize, int tile
 	int spacingX = tileSpacing;
 	int spacingY = tileSpacing;
 
-	// Initialisation des valeurs des tuiles à zéro et avec un espacement
+	// Initialisation des valeurs des tuiles Ã  zÃ©ro et avec un espacement
 	for (int row = 0; row < rows; row++) {
 		for (int col = 0; col < columns; col++) {
 			int tileX = col * (tileSize + spacingX);
@@ -33,41 +33,6 @@ void Grid::draw()
 		}
 	}
 }
-
-//void Grid::spawnBlock(int usecase) {
-//	switch (usecase)
-//	{
-//	case 0:
-//	{
-//		int row, col;
-//		if (checkFreeTiles(row, col)) {
-//			// Générez une nouvelle tuile (exemple : valeur aléatoire entre 2 et 4)
-//			int value = 2 + (rand() % 2) * 2; // Génère 2 ou 4
-//			grid[row][col].setValue(value);
-//	
-//		}
-//		break;
-//	}
-//	case 1:
-//	{
-//		grid[0][1].setValue(1024);
-//		grid[0][2].setValue(1024);
-//		break;
-//	}
-//	}
-//}
-//
-//bool Grid::checkFreeTiles(int& row, int& col) {
-//	// Parcourez la grille pour trouver une tuile vide
-//	for (row = 0; row < rows; row++) {
-//		for (col = 0; col < columns; col++) {
-//			if (grid[row][col].getValue() == 0) {
-//				return true; // Une tuile vide a été trouvée
-//			}
-//		}
-//	}
-//	return false; // Aucune tuile vide trouvée
-//}
 
 bool Grid::checkFreeTiles()
 {

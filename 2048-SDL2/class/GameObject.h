@@ -8,9 +8,10 @@ public:
 
     ~GameObject();
 
-    virtual void draw();
+    //void draw();
 
-protected:
+    // Ajoutez d'autres méthodes si nécessaire
+//private:
     SDL_Renderer* renderer;
     int x, y, width, height;
     SDL_Rect rect;

@@ -7,14 +7,10 @@ class Tile : public GameObject {
 public:
     Tile(SDL_Renderer* renderer, int x, int y, int width, int height, SDL_Color color, int value, std::map<int, SDL_Texture*>* map);
 
-    int getValue();
-
     int getX();
-
     int getY();
-
+    int getValue();
     void setValue(int value);
-
     void draw() override;
 
 protected:
@@ -23,4 +19,7 @@ protected:
     int value;
     SDL_Texture* pNumberTexture = NULL;
     std::string textValue;
+    SDL_Texture* textTexture;
+    TTF_Font* font;
+    SDL_Color textColor;
 };

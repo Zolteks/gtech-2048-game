@@ -1,6 +1,3 @@
-#include <iostream>
-#include <string>
-#include <SDL_ttf.h>
 #include "class/Tile.h"
 
 using namespace std;
@@ -74,8 +71,6 @@ void Tile::setValue(int value)
     cout << "La valeur actuelle est " << value << endl;
     pNumberTexture = (*textures)[value];
     cout << "error passed" << endl;
-
-
 }
 
 void Tile::draw()

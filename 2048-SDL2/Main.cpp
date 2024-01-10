@@ -3,7 +3,6 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <SDL_render.h>
-#include <SDL_ttf.h>
 #include <vector>
 
 //Init class
@@ -20,9 +19,10 @@ int main(int argc, char* args[])
     #define SCREEN_WIDTH 1280
     #define SCREEN_HEIGHT 720
 
+    SDL_Event event;
+
     bool error;
     Window window(SCREEN_WIDTH, SCREEN_HEIGHT, &error);
-
     if (error)
     {
         cout << "Failed to initialize!" << endl;
@@ -33,7 +33,6 @@ int main(int argc, char* args[])
     Grid grid(window.gRenderer, 4, 4, 50, 10, &window.textures);
     grid.spawnBlock(0);
 
-    SDL_Event event;
     bool running = true;
 
     while (running)
